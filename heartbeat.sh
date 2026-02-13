@@ -10,8 +10,7 @@ log() {
 : "${ECS_SERVICE:?ECS_SERVICE env var is required}"
 : "${API_ENDPOINT:?API_ENDPOINT env var is required}"
 : "${HEARTBEAT_INTERVAL_SECONDS:=3600}"
-: "${CWP_SEC:?CWP_SEC env var is required}"
-: "${INTEGRATION_ID:?INTEGRATION_ID env var is required}"
+: "${SECRET:?SECRET env var is required}"
 : "${CLUSTER_IDENTIFIER:?CLUSTER_IDENTIFIER env var is required}"
 : "${API_KEY:?API_KEY env var is required}"
 : "${TENANT_ID:?TENANT_ID env var is required}"
@@ -58,8 +57,7 @@ post_heartbeat() {
   # Send heartbeat (don’t crash loop on temporary errors)
   curl -sS -X POST "$API_ENDPOINT/v1/cwp/agents/$AGENT_ID/heartbeats" \
     -H "Content-Type: application/json" \
-    -H "X-CWP-SEC: $CWP_SEC" \
-    -H "X-INTEGRATION-ID: $INTEGRATION_ID" \
+    -H "X-SECRET: $SECRET" \
     -H "X-CLUSTER-IDENTIFIER: $CLUSTER_IDENTIFIER" \
     -H "X-API-KEY: $API_KEY" \
     -H "X-TENANT-ID: $TENANT_ID" \
